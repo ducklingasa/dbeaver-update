@@ -3,7 +3,10 @@ SET ZIP_PATH=C:\Program Files\7-Zip\
 SET PATH=%PATH%;%ZIP_PATH%
 
 SET "CLIENT="
-FOR /F %%A IN (.\.eclipseproduct) DO SET "CLIENT=%%A"
+FOR /F %%A IN (.\.eclipseproduct) DO (
+	ECHO %%A | FINDSTR /r version > NUL
+	IF NOT ERRORLEVEL 1 SET "CLIENT=%%A"
+)
 
 MKDIR .update
 
@@ -26,7 +29,10 @@ RMDIR /s /q configuration features jre licenses Meta-inf p2 plugins
 ROBOCOPY .update\dbeaver . /NFL /NDL /NJH /NJS /NS /NC /E /R:0 /DCOPY:T
 
 SET "CLIENT="
-FOR /F %%A IN (.\.eclipseproduct) DO SET "CLIENT=%%A"
+FOR /F %%A IN (.\.eclipseproduct) DO (
+	ECHO %%A | FINDSTR /r version > NUL
+	IF NOT ERRORLEVEL 1 SET "CLIENT=%%A"
+)
 
 ECHO New client is:
 ECHO %CLIENT%
